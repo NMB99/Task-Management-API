@@ -21,7 +21,18 @@ public class TaskService {
     }
 
     public Task getTaskById(Long id) {
-        return repository.findById(id).orElse(new Task());
+        return repository.findById(id).orElse(null);
     }
 
+    public void addTask(Task task) {
+        repository.save(task);
+    }
+
+    public void updateTask(Task task) {
+        repository.save(task);
+    }
+
+    public void deleteTask(Long id) {
+        repository.deleteById(id);
+    }
 }

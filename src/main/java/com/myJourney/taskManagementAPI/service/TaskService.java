@@ -5,6 +5,7 @@ import com.myJourney.taskManagementAPI.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -24,15 +25,24 @@ public class TaskService {
         return repository.findById(id).orElse(null);
     }
 
-    public void addTask(Task task) {
-        repository.save(task);
+    public Task addTask(Task task) {
+        task.setId(null);
+        return repository.save(task);
     }
 
-    public void updateTask(Task task) {
-        repository.save(task);
+    public Task updateTask(Long id, Task task) {
+        if (repository.existsById(id)) {
+            task.setId(id);
+            return repository.save(task);
+        }
+        return null;
     }
 
-    public void deleteTask(Long id) {
-        repository.deleteById(id);
+    public boolean deleteTask(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
